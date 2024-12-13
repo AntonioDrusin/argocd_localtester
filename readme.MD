@@ -20,7 +20,7 @@ To start just run the start.sh script. This will create three clusters by defaul
 One of the clusters contains gitea as the git server for ArgoCD.
 Each cluster will have ArgoCD installed.
 
-The contexts will be: control, cluster-<number>
+The contexts will be: control, cluster-\<number\>
 These context will let you control each cluster separately.
 
 Once everything is setup you will be given the urls, username, and passwords for GitTea and for each ArgoCD instance.
