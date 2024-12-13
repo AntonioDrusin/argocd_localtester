@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITEA_PASSWORD=$(openssl rand -base64 12)
+GITEA_PASSWORD=$(openssl rand -base64 12 | tr -d '/+=' | head -c 12)
 export GITEA_USER="gitadmin"
 export GITEA_PASSWORD
 

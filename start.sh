@@ -44,9 +44,17 @@ done
 
 echo "Creating gitea API token"
 mkdir -p api
-GITEA_POD_NAME=$(kubectl get pods --selector=app.kubernetes.io/name -n default --context control -o jsonpath="{.items[0].metadata.name}")
+GITEA_POD_NAME=""
+
+while [[ -z "$GITEA_POD_NAME" ]]; do
+  GITEA_POD_NAME=$(kubectl get pods --selector=app.kubernetes.io/name=gitea -n gitea --context control -o jsonpath="{.items[0].metadata.name}")
+  if [[ -z "$GITEA_POD_NAME" ]]; then
+    echo "Waiting for Gitea pod to be available..."
+    sleep 5
+  fi
+done
 echo "Pod with GITEA: ${GITEA_POD_NAME}"
-kubectl exec "$GITEA_POD_NAME" -n default --context control -c gitea -- gitea admin user generate-access-token -u gitadmin --raw --scopes all --token-name gitea2 > /tmp/gitea_api_token
+kubectl exec "$GITEA_POD_NAME" -n gitea --context control -c gitea -- gitea admin user generate-access-token -u gitadmin --raw --scopes all --token-name gitea2 > /tmp/gitea_api_token
 
 # Create the repositories
 
@@ -67,7 +75,7 @@ create_gitea_repo() {
       }'
       
   if [[ -d "repos/$repo_name" ]]; then
-    echo "Pushing repository repos/$repo_name from gittea"
+    echo "Pushing repository repos/$repo_name from gitea"
     pushd "repos/$repo_name" || exit
     for remote in $(git remote); do
         echo "Removing remote: $remote"
@@ -78,7 +86,7 @@ create_gitea_repo() {
     git push gitea main
     popd || exit
   else
-    echo "Pulling repository $repo_name from gittea"
+    echo "Pulling repository $repo_name from gitea"
     pushd "repos" || exit
     git clone "http://localhost:3000/gitadmin/$repo_name"
     popd || exit
