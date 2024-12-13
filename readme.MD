@@ -4,6 +4,10 @@ This is a local argoCD tester with two kubernetes clusters
 - one argoCD per cluster in created
 - a third cluster for management is also created.
 
+# Warning
+ The scripts will use minikube tunnel and bind to your 0.0.0.0 ip making the services possibly visible outside of your test computer. Passwords are generated fresh everytime, but you should keep your computer behind a firewall.
+
+Ports used will be 3000 for gittea, and 8100 and up, 8400 and up for the ArgoCD clusters.
 
 # Requirements 
 

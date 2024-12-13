@@ -10,4 +10,5 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s --context "${cluster_name}"
 echo helm install "argo" support/argo-chart --kube-context "$cluster_name" --set httpPort="$httpPort" --set httpsPort="$httpsPort" --wait
 helm install "argo" support/argo-chart --kube-context "$cluster_name" --set httpPort="$httpPort" --set httpsPort="$httpsPort" --wait
-kubectl label secret argocd-secret -n argocd "cluster=${cluster_name}" --overwrite
+kubectl label secret argocd-secret -n argocd "cluster=${cluster_name}" --overwrite --context "${cluster_name}"
+kubectl apply -n argocd --context "${cluster_name}" -f support/initial-manifests/initial-application-set.yaml
