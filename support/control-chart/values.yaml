@@ -1,0 +1,13 @@
+gitea:
+  gitea:
+    admin:
+      username: "gitadmin"
+      password: "vPZcW4T9Dwe9piBV"
+  enabled: true
+  service:
+    http:
+      type: LoadBalancer
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    size: 10Gi
