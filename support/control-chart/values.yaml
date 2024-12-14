@@ -10,7 +10,9 @@ gitea:
   
   persistence:
     enabled: true
-  
+  service:
+    http:
+      type: LoadBalancer  
   gitea:
     admin:
       username: "gitadmin"

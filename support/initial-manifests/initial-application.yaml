@@ -1,0 +1,18 @@
+﻿apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: manage-applicationsets
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: http://host.minikube.internal:3000/gitadmin/infrastructure.git
+    targetRevision: HEAD
+    path: infrastructure
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+SECONDS=0  
 source ./config.sh
 
 declare -a PROCESSES
@@ -109,3 +109,5 @@ for cluster_name in "${!clusters[@]}"; do
   echo "ArgoCD ${cluster_name} User: admin"
   echo "ArgoCD ${cluster_name} Password: $(kubectl get secret argocd-initial-admin-secret --context "$cluster_name" -n argocd -o jsonpath="{.data.password}" | base64 --decode)"  
 done
+
+echo "Total execution time: $SECONDS seconds"
